@@ -657,12 +657,12 @@ function InitializeEDMConfigFile
 		ColumnSeparator = "Csv"
 		DataStoreName = "Not set"
 		EDMAppFolder = "c:\Program Files\Microsoft\EdmUploadAgent\"
-		EDMrootFolder = "C:\EDM data\"
-		HashFolder = "C:\EDM data\Hash\"
-		SchemaFolder = "C:\EDM data\Schemas\"
+		EDMrootFolder = "C:\EDM\"
+		HashFolder = "C:\EDM\Hash\"
+		SchemaFolder = "C:\EDM\Schemas\"
 		EDMremoteFolder = "\\localhost\c$\"
-		EDMSupportFolder = "C:\EDM data\Support\"
-		EDMDataFolder = "C:\EDM data\Data\"
+		EDMSupportFolder = "C:\EDM\Support\"
+		EDMDataFolder = "C:\EDM\Data\"
 		EDMHostName = "Localhost"
 		}
 		return $config
