@@ -67,12 +67,15 @@ function HashDate
 	
 	$EDMDataFile = gci $EDMDataFolder -Filter $EDMFilterExtension| select -last 1
 	
-	$timestampFile = $OutputPath + "CreateHash_timestamp.json"
+	$timestampFile = "$OutputPath"+"CreateHash_timestamp.json"
 	# read LastWriteTime from the file
 	if (-not (Test-Path -Path $timestampFile))
 	{
 		# if file not present create new value
-		$Hashtimestamp = $EDMDataFile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
+		$timestamp = $EDMDataFile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
+		$timestamp = [DateTime]$timestamp
+		$Hashtimestamp = $timestamp.AddDays(-1)
+		$Hashtimestamp = $Hashtimestamp.ToString("yyyy-MM-ddTHH:mm:ss")
 	}else{
 		$json = Get-Content -Raw -Path $timestampFile
 		[PSCustomObject]$timestamp = ConvertFrom-Json -InputObject $json
@@ -100,7 +103,7 @@ function CreateHash
 	$EDMExtension = Split-Path -Extension $EDMData
 	$EDMFilterExtension = "*"+$EDMExtension
 	
-	$timestampFile = $OutputPath + "CreateHash_timestamp.json"
+	$timestampFile = "$OutputPath"+"CreateHash_timestamp.json"
 	$jsonHash = Get-Content -Raw -Path $timestampFile
 	[PSCustomObject]$timestamp = ConvertFrom-Json -InputObject $jsonHash
 	$Hashtimestamp = $timestamp.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
