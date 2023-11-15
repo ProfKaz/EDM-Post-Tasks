@@ -7,13 +7,14 @@
 	Create locally the hash only if a new file is detected
     
 .NOTES
-    Version 0.9
-    Current version - 27.10.2023
+    Version 1.0
+    Current version - 15.11.2023
 #> 
 
 <#
 HISTORY
   2023-10-27	S.Zamorano	- Initial script to create Hash locally
+  2023-11-15	S.Zamorano	- First release
 #>
 
 #------------------------------------------------------------------------------  
