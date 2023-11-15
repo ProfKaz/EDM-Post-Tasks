@@ -119,7 +119,6 @@ function HashDate
 	if (-not (Test-Path -Path $timestampFile))
 	{
 		# if file not present create new value
-		#$Hashtimestamp = $Hashfile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
 		$timestamp = $Hashfile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
 		$timestamp = [DateTime]$timestamp
 		$Hashtimestamp = $timestamp.AddDays(-1)
@@ -173,7 +172,7 @@ function CreateHash
 		$EDMFolder = $config.EDMAppFolder
 		Set-Location $EDMFolder | cmd	
 		
-		#.\EdmUploadAgent.exe /UploadHash /DataStoreName $EDMDSName /HashFile $HashName
+		.\EdmUploadAgent.exe /UploadHash /DataStoreName $EDMDSName /HashFile $HashName
 		Write-Host "`nREMEMBER: You can update your EDM data only 5 times per day." -ForegroundColor Blue
 		
 		$HashfileTime = @{"LastWriteTime" = $HashfileTime}
