@@ -668,8 +668,8 @@ function EDMCopyDataNeeded
 	}
 	
 	Write-Host "`n###################################################" -ForegroundColor Red
-	Write-Host "These files will be copy to '$($Destination)'." -ForegroundColor Green
-	Write-Host "`n`tHash y Salt files located at '$($config.HashFolder)' " -ForegroundColor Green
+	Write-Host "These files will be copied to '$($Destination)'." -ForegroundColor Green
+	Write-Host "`n`tHash and Salt files located at '$($config.HashFolder)' " -ForegroundColor Green
 	Write-Host "`tEDM_RemoteConfig.json file (Password was decrypted)  " -ForegroundColor Green
 	Write-Host "`tThis EDM_Setup file " -ForegroundColor Green
 	Write-Host "`tSupport script for upload task " -ForegroundColor Green
