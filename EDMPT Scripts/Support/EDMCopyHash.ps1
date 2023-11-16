@@ -91,7 +91,7 @@ function CopyHash
 	[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
 	$HashData = $config.HashFolder
 	$HashData = $HashData.Substring(0,$HashData.Length-1)
-	$HashData = $HashData+"*"
+	$HashData = $HashData+"*.Edm*"
 	$HashFolder = $config.HashFolder
 	$OutputPath = $config.EDMSupportFolder
 	$Destination = $config.EDMremoteFolder
