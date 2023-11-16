@@ -1,0 +1,51 @@
+SSN	SSNIssueDate	TIN	TINIssueDate	Bank	DebitAccount	Title	FirstName	LastName	FullName	Brand	CCNumber	CVV	CCExp	PhoneNumber	City
+066-57-6307	37929	903-81-0897	35652	Truist Financial	783812339	Mrs.	Ezekiel	Little	Ezekiel Little	Visa	3.77E+14	780	45074	+1 505-775-9607	Charlotte
+550-31-2838	35689	937-83-2734	32806	Charles Schwab Corporation	52537319888	Prof.	Cruz	Powlowski	Cruz Powlowski	MasterCard	5.47E+15	911	45013	+1 216-556-3450	New York City
+552-33-9278	35608	933-72-1477	31435	Morgan Stanley	38292553891	Mr.	Shawn	Breitenberg	Shawn Breitenberg	Visa	5.08E+15	461	45041	+1 582-391-3314	Pittsburgh
+375-77-1411	37181	953-84-9248	40277	Truist Financial	2932721213	Mrs.	Kody	Murray	Kody Murray	MasterCard	6.01E+15	479	45042	+1 505-280-7060	Charlotte
+104-67-7705	34147	904-85-4459	44695	Citigroup	8.22E+11	Prof.	Fredrick	Berge	Fredrick Berge	AMEX	3.77E+14	6383	45256	+1 505-824-1367	Pittsburgh
+494-54-0139	36213	943-76-2583	43165	PNC Financial Services	81330928072	Dr.	Vivianne	Wiegand	Vivianne Wiegand	MasterCard	4.22E+15	372	44954	+1 309-908-1474	New York City
+518-49-0783	30640	902-76-6183	36831	Bank of America	4761148063	Miss	Tristian	Kunde	Tristian Kunde	MasterCard	3.72E+14	600	45254	+1 229-388-3694	Pittsburgh
+454-09-5688	36403	942-86-8406	28966	U.S. Bancorp	7833135440	Dr.	Elbert	Kohler	Elbert Kohler	Visa	5.84E+15	63	45257	+1 305-576-3305	Pittsburgh
+485-88-8211	30995	903-74-2549	51137	PNC Financial Services	2646910220	Mr.	Geovanni	Abbott	Geovanni Abbott	Discover	6.01E+15	620	45102	+1 505-411-8762	New York City
+544-03-0203	24233	953-82-7834	40419	Goldman Sachs	6.26E+11	Prof.	Dangelo	Kessler	Dangelo Kessler	Visa	4.88E+15	873	45042	+1 234-961-9334	Charlotte
+549-05-3671	37800	919-85-5489	31960	Morgan Stanley	99129699859	Mr.	Mathias	DuBuque	Mathias DuBuque	Discover	4.89E+15	107	45071	+1 505-644-9399	Pittsburgh
+378-75-7452	27022	941-77-2827	38726	Wells Fargo	5.98E+11	Ms.	Demarcus	Auer	Demarcus Auer	MasterCard	3.71E+14	533	45074	+1 202-350-2716	New York City
+568-07-8347	35750	930-71-9525	36665	U.S. Bancorp	7778829712	Miss	Winifred	Boyle	Winifred Boyle	Discover	6.01E+15	75	45070	+1 208-833-3625	Charlotte
+068-12-5065	28149	909-82-2481	35877	PNC Financial Services	37794515234	Mrs.	Emile	Kuphal	Emile Kuphal	Discover	5.61E+15	939	45254	+1 505-644-4241	Charlotte
+576-07-2803	35395	926-79-5689	31052	PNC Financial Services	38146284488	Miss	Herminia	Bernhard	Herminia Bernhard	MasterCard	5.26E+15	843	45044	+1 350-425-2798	New York City
+226-86-9577	25576	919-78-2308	36567	Bank of America	7685226116	Mr.	Billy	Abbott	Billy Abbott	Discover	6.01E+15	890	45256	+1 720-693-1945	Charlotte
+543-85-0342	34411	915-76-8639	31979	U.S. Bancorp	7516107236	Mr.	Gwendolyn	Quigley	Gwendolyn Quigley	Discover	5.79E+15	392	45253	+1 212-739-8545	New York City
+230-58-5931	36207	948-77-3831	38929	PNC Financial Services	85935976670	Ms.	Noe	Jacobs	Noe Jacobs	MasterCard	6.01E+15	123	45287	+1 505-644-1970	New York City
+405-88-7563	37259	953-79-4364	44218	Truist Financial	3238354872	Dr.	Lilian	Stehr	Lilian Stehr	Discover	3.71E+14	295	45161	+1 505-646-8618	Westlake
+355-55-5911	31257	953-73-1798	41598	Wells Fargo	82725238518	Dr.	Megane	Nolan	Megane Nolan	Visa	3.74E+14	413	44982	+1 636-413-8177	Westlake
+514-75-7894	33038	925-75-0344	43418	JPMorgan Chase	60946394	Ms.	Rosamond	Von	Rosamond Von	AMEX	4.42E+15	6936	45286	+1 501-289-9647	Charlotte
+216-70-3349	37550	939-73-1421	34777	Citigroup	4789909919	Prof.	Bella	Harvey	Bella Harvey	Discover	3.79E+14	795	45225	+1 231-643-0687	Charlotte
+500-74-8237	36953	951-82-6473	30594	JPMorgan Chase	9747910115	Miss	Clay	Larson	Clay Larson	MasterCard	4.56E+15	390	45135	+1 303-204-7875	New York City
+398-50-7503	38904	920-82-5489	32274	Morgan Stanley	5062322599	Ms.	Carmela	Berge	Carmela Berge	Visa	5.56E+15	747	45072	+1 224-477-9885	New York City
+058-89-4582	40047	921-81-7046	32970	Goldman Sachs	66636530947	Prof.	Juliana	Stanton	Juliana Stanton	MasterCard	3.73E+14	174	45045	+1 505-646-4721	New York City
+488-06-5237	32193	925-86-2082	31747	Goldman Sachs	8734600167	Mrs.	May	Heller	May Heller	AMEX	5.13E+15	1993	44954	+1 505-603-7621	Pittsburgh
+576-68-2841	40554	911-72-6306	42248	Bank of America	11857905437	Prof.	Heaven	Gutkowski	Heaven Gutkowski	AMEX	6.01E+15	7977	44983	+1 217-314-8809	Pittsburgh
+086-09-7408	31739	947-88-1967	29450	Morgan Stanley	1362943669	Dr.	Dustin	Abshire	Dustin Abshire	AMEX	4.63E+15	7486	45286	+1 330-854-3211	San Francisco
+203-09-9449	38779	949-84-7922	33449	Truist Financial	7389076999	Dr.	Baron	Bernhard	Baron Bernhard	MasterCard	6.01E+15	457	45009	+1 505-646-1372	Charlotte
+080-55-4209	30842	944-72-8541	44563	Morgan Stanley	8078162862	Ms.	Julianne	Koss	Julianne Koss	MasterCard	6.01E+15	677	45012	+1 215-636-3776	New York City
+570-56-7309	28784	929-82-6492	35399	Bank of America	7.54E+11	Ms.	Lyric	Nicolas	Lyric Nicolas	Visa	5.30E+15	101	45224	+1 505-989-0279	Charlotte
+145-71-8505	26296	938-81-3116	27903	Bank of America	58595688725	Dr.	Jeremy	Schinner	Jeremy Schinner	AMEX	3.77E+14	559	44955	+1 505-646-9013	Charlotte
+553-53-7610	37476	950-87-5003	44043	U.S. Bancorp	6945547220	Prof.	Urban	Torp	Urban Torp	AMEX	3.73E+14	4313	45163	+1 234-895-8063	New York City
+228-55-1686	35279	931-83-1048	35363	PNC Financial Services	83130021574	Ms.	Kyra	Mayert	Kyra Mayert	Visa	3.72E+14	648	45105	+1 231-249-7237	New York City
+579-35-1001	29428	959-72-3276	35635	Citigroup	9701594635	Miss	June	Schiller	June Schiller	MasterCard	5.62E+15	913	45253	+1 206-464-4997	Pittsburgh
+570-98-2401	26007	958-76-2703	34338	U.S. Bancorp	6.41E+11	Ms.	Maymie	Toy	Maymie Toy	AMEX	5.67E+15	6578	45254	+1 505-513-6064	Pittsburgh
+400-98-4026	23573	908-73-3172	31374	Wells Fargo	8687440480	Prof.	Micheal	Schowalter	Micheal Schowalter	AMEX	6.01E+15	7610	45288	+1 505-380-1158	New York City
+561-47-8248	27611	942-87-5091	36142	Morgan Stanley	5708019225	Ms.	Sally	Pfannerstill	Sally Pfannerstill	Discover	3.78E+14	298	44983	+1 505-644-8448	San Francisco
+549-76-3907	23402	936-86-4957	35747	Morgan Stanley	86428266900	Miss	Judy	Walter	Judy Walter	AMEX	6.01E+15	3795	44981	+1 505-875-2795	New York City
+096-09-5695	30070	919-87-9483	36285	Truist Financial	47871067065	Ms.	Kailyn	Schamberger	Kailyn Schamberger	Visa	4.94E+15	375	45225	+1 505-821-5417	New York City
+135-23-8122	32264	927-75-1583	30418	Citigroup	5216252324	Prof.	Maria	Koepp	Maria Koepp	MasterCard	5.75E+15	639	45165	+1 505-304-5278	New York City
+541-41-6014	38162	905-83-4427	28589	Wells Fargo	181781478	Ms.	Emery	Boyer	Emery Boyer	AMEX	4.16E+15	7688	45197	+1 505-292-5297	New York City
+325-38-9541	36873	940-77-6566	42871	JPMorgan Chase	5825531796	Ms.	Keagan	Heaney	Keagan Heaney	Visa	4.30E+15	749	45070	+1 505-644-5880	Minneapolis
+551-16-7776	26138	949-73-1438	32923	Wells Fargo	25450304635	Mrs.	Scotty	Mante	Scotty Mante	Visa	5.82E+15	474	45075	+1 505-699-1358	Charlotte
+547-96-6334	25262	941-88-4621	29482	PNC Financial Services	5903809	Mrs.	Dortha	Balistreri	Dortha Balistreri	Visa	6.01E+15	802	45011	+1 505-394-8770	New York City
+170-97-4689	26641	909-86-8315	31754	Goldman Sachs	9248742791	Miss	Raul	Jakubowski	Raul Jakubowski	MasterCard	5.83E+15	720	45071	+1 234-765-2764	Minneapolis
+558-96-1492	38215	923-85-2211	29974	U.S. Bancorp	8342886062	Ms.	Hilbert	Rodriguez	Hilbert Rodriguez	MasterCard	6.01E+15	310	45165	+1 248-298-4035	Charlotte
+542-73-2740	37736	941-72-3714	32902	Charles Schwab Corporation	89439134814	Mr.	Pauline	Pfannerstill	Pauline Pfannerstill	Discover	4.13E+15	472	45253	+1 310-899-3564	New York City
+551-38-2185	25728	942-77-2126	44263	Morgan Stanley	7863919819	Dr.	Lisandro	Gorczany	Lisandro Gorczany	MasterCard	4.67E+15	58	45224	+1 210-865-3613	Charlotte
+196-98-0799	33639	925-87-2811	33040	U.S. Bancorp	9466184766	Mr.	Rosie	Mohr	Rosie Mohr	Visa	5.73E+15	367	45225	+1 505-878-4570	New York City
