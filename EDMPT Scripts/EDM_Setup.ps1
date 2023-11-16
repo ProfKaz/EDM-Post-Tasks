@@ -631,7 +631,7 @@ function EDMCopyDataNeeded
 	[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
 	$HashData = $config.HashFolder
 	$HashData = $HashData.Substring(0,$HashData.Length-1)
-	$HashData = $HashData+"*"
+	$HashData = $HashData+"*.Edm*"
 	$SupportScripts = $config.EDMSupportFolder
 	$SupportScripts = $SupportScripts+"EDM_*"
 	$Destination = $config.EDMremoteFolder
