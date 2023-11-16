@@ -41,3 +41,31 @@ This 2<sup>nd</sup> menu permit to generate all the tasks to collect all the add
 <p align="center">
 <img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/df3f91da-0a3c-467a-bf83-c0a225b9cdaa"></p>
 <p align="center">2 - Generate EDM Hash & upload</p>
+
+In this section we will do:
+1. [1]Get EDM datastores, the script connect to the Purview Portal to show all the datastores available and permit select the right one.
+2. [2]Get the **"Schema file"** based on the datastore selected.
+3. [3]Set and validate EDM data, the data folder is set where the real data is located.
+4. [4]Create the **"Hash file"** for your real data.
+5. [5]Upload the **"Hash file"** that contains the hashed data that will be uploaded to your Microsoft 365 Tenant.
+6. [6]EDM Hash upload status, permit to check the status progress.
+7. [7]Create a task under task scheduler to create Hash files.
+8. [8]Create a task under task scheduler to upload the Hashed data to your Microsoft 365 Tenant.
+
+## 3 - Copy files needed and Hash to a remote server
+This 3<sup>rd</sup> menu permit to copy the files needed to execute EDM PT in a remote server to upload the data hashed to your Microsoft 365 Tenant.
+
+<p align="center">
+<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/2d624338-35b4-4fbb-a456-b985fbf47281"></p>
+<p align="center">3 - Copy files needed and Hash to a remote server</p>
+
+In this section we will do:
+1. [1]Copy the data needed to a remote server, a new configuration file is created with the minimal configuration needed to execute EDM PT in the remote server, the scripts required and the Hash files.
+2. [2]Create a task under task scheduler to copy Hashed data daily.
+
+## 4 - Remote server activities
+This last menu related to EDM tasks is to be used in a remote server, and helps to set the activities related to only upload the hashed data.
+
+<p align="center">
+<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/00d6948c-c6b6-4db9-b29f-9b0766b30ba8"></p>
+<p align="center">4 - Remote server activities</p>
