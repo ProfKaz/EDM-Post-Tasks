@@ -1556,7 +1556,7 @@ function SubMenuRemoteConfig
 		Write-Host "`n----------------------------------------------------------------------------------------" -ForegroundColor DarkRed
 		Write-Host "`n###`t4 - Remote server activities`t###" -ForegroundColor DarkRed
 		Write-Host "`nWhat do you want to do?"
-		Write-Host "`t[1] - Plase validate your new folders."
+		Write-Host "`t[1] - Please validate your new folders."
 		Write-Host "`t[2] - Sign the scripts again."
 		Write-Host "`t[3] - Change credentials, only if you want to use another account."
 		Write-Host "`t[4] - Encrypt password."
