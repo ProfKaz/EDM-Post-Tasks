@@ -132,7 +132,7 @@ function HashDate
 	ConvertTo-Json -InputObject $Hashtimestamp | Out-File -FilePath $timestampFile -Force
 }
 
-function CreateHash
+function UploadHash
 {
 	CheckPrerequisites
 	HashDate
@@ -182,4 +182,4 @@ function CreateHash
 	
 }
 
-CreateHash
+UploadHash

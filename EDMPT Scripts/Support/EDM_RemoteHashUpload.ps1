@@ -89,13 +89,13 @@ function Connect2EDM
 	if ($EncryptedKeys -eq "True")
 	{
 		$SharedKey = DecryptSharedKey $SharedKey
-		cd $EDMFolder | cmd
-		cls
+		Set-Location $EDMFolder | cmd
+		#cls
 		Write-Host "Validating connection to EDM..." -ForegroundColor Green
 		.\EdmUploadAgent.exe /Authorize /Username $user /Password $SharedKey 
 	}else{
-		cd $EDMFolder | cmd
-		cls
+		Set-Location $EDMFolder | cmd
+		#cls
 		Write-Host "Validating connection to EDM..." -ForegroundColor Green
 		.\EdmUploadAgent.exe /Authorize /Username $user /Password $SharedKey
 	}
@@ -141,12 +141,14 @@ function UploadHash
 	$HashFolder = $config.HashFolder
 	$EDMrootFolder = $config.EDMrootFolder
 	
-	$timestampFile = "UploadHash_timestamp.json"
+	$timestampFile = "$PSScriptRoot"+"\"+"UploadHash_timestamp.json"
 	$jsonHash = Get-Content -Raw -Path $timestampFile
 	[PSCustomObject]$timestamp = ConvertFrom-Json -InputObject $jsonHash
 	$Hashtimestamp = $timestamp.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
 	$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 	$HashfileTime = $Hashfile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
+	write-host "Hashtimestamp is '$($Hashtimestamp)'" -ForegroundColor Green
+	write-host "HashfileTime is '$($HashfileTime)´" -ForegroundColor Green
 	
 	if($HashfileTime -eq $Hashtimestamp)
 	{
@@ -168,9 +170,10 @@ function UploadHash
 		.\EdmUploadAgent.exe /UploadHash /DataStoreName $EDMDSName /HashFile $HashName
 		Write-Host "`nREMEMBER: You can update your EDM data only 5 times per day." -ForegroundColor RED
 		
+		$HashfileTime = @{"LastWriteTime" = $HashfileTime}
+		ConvertTo-Json -InputObject $HashfileTime | Out-File -FilePath $timestampFile -Force
+		
 		Set-Location $PSScriptRoot | cmd
 	}
-	
 }
-
 UploadHash
