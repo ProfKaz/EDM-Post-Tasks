@@ -65,7 +65,7 @@ function HashDate
 	$EDMExtension = Split-Path -Extension $EDMData
 	$EDMFilterExtension = "*"+$EDMExtension
 	
-	$EDMDataFile = gci $EDMDataFolder -Filter $EDMFilterExtension| select -last 1
+	$EDMDataFile = gci $EDMDataFolder -Filter $EDMFilterExtension | sort LastWriteTime | select -last 1
 	
 	$timestampFile = "$OutputPath"+"CreateHash_timestamp.json"
 	# read LastWriteTime from the file
@@ -108,7 +108,7 @@ function CreateHash
 	[PSCustomObject]$timestamp = ConvertFrom-Json -InputObject $jsonHash
 	$Hashtimestamp = $timestamp.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
 	#Write-Host "Hashtimestamp '$($Hashtimestamp)'." -ForegroundColor Green
-	$Datafile = gci $EDMDataFolder -Filter $EDMFilterExtension| select -last 1
+	$Datafile = gci $EDMDataFolder -Filter $EDMFilterExtension | sort LastWriteTime | select -last 1
 	$HashfileTime = $Datafile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
 	#Write-Host "Hashfile '$($Hashfile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss"))'." -ForegroundColor Green
 	
@@ -120,12 +120,12 @@ function CreateHash
 		If($EDMColumnSeparator -eq 'Csv')
 		{
 			.\EdmUploadAgent.exe /CreateHash /DataFile $EDMData /HashLocation $EDMHash /Schema $EDMSchema  /AllowedBadLinesPercentage $EDMBadLinesPercentage
-			$Hashfile = gci $HashFolder -Filter *.edmhash | select -last 1
+			$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 			$config.HashFile = $Hashfile.Name
 		}else
 		{
 			.\EdmUploadAgent.exe /CreateHash /DataFile $EDMData /HashLocation $EDMHash /Schema $EDMSchema  /AllowedBadLinesPercentage $EDMBadLinesPercentage /ColumnSeparator $EDMColumnSeparator 
-			$Hashfile = gci $HashFolder -Filter *.edmhash | select -last 1
+			$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 			$config.HashFile = $Hashfile.Name
 		}
 		

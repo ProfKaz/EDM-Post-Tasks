@@ -7,7 +7,7 @@
     
 .NOTES
     Version 1.0
-    Current version - 13.11.2023
+    Current version - 15.11.2023
 #> 
 
 <#
@@ -16,6 +16,7 @@ HISTORY
 
   2023-10-27	S.Zamorano	- New version using the original script as a base for EDM
   2023-11-13	S.Zamorano	- Manage some additional variables, and added comments to the functions 
+  2023-11-15	S.Zamorano	- Initial release
 #>
 
 #------------------------------------------------------------------------------  
@@ -269,6 +270,12 @@ function SelectEDMPaths
 #To identify and set the paths used by EDM in the remote server
 function SelectEDMRemotePaths
 {
+	cls
+	
+	$config = "$PSScriptRoot\EDM_RemoteConfig.json"
+	$json = Get-Content -Raw -Path $config
+	[PSCustomObject]$RemoteConfig = ConvertFrom-Json -InputObject $json
+	
 	$choices  = '&Yes', '&No'
 	Write-Host "`n`n##########################################"
 	Write-Host "`nThe current configuration for EDM Remote activities is:"
@@ -279,20 +286,24 @@ function SelectEDMRemotePaths
     if ($decision -eq 0)
     {
         [System.Reflection.Assembly]::Load("System.Windows.Forms") | Out-Null
-        $folder = New-Object System.Windows.Forms.FolderBrowserDialog
-		$folder.UseDescriptionForTitle = $true
-        
+                
 		#Here you start selecting each folder
 		
 		# Start selecting first EDM App location
-		$folder.Description = "Select folder where EdmUploadAgent.exe is located"
-        $folder.rootFolder = 'ProgramFiles'
+		$file = New-Object System.Windows.Forms.OpenFileDialog
+		# Start selecting EMD Upload Agent location  
+		$file.Title = "Select folder where EdmUploadAgent.exe is located"
+        $file.InitialDirectory = 'ProgramFiles'
+		$file.Filter = 'EDM App|EdmUploadAgent.exe'
         # main log directory
-        if ($folder.ShowDialog() -eq "OK")
+        if ($file.ShowDialog() -eq "OK")
         {
-            $RemoteConfig.EDMAppFolder = $folder.SelectedPath + "\"
-            Write-Host "`nEDM App folder set to '$($RemoteConfig.EDMAppFolder)'."
+            $EDMDataPath = Split-Path -Parent $file.FileName
+			$RemoteConfig.EDMAppFolder = $EDMDataPath + "\"
         }
+		
+		$folder = New-Object System.Windows.Forms.FolderBrowserDialog
+		$folder.UseDescriptionForTitle = $true
 
         # EDM data root folder
         $folder.Description = "Select the root folder used by EDM scripts"
@@ -300,7 +311,6 @@ function SelectEDMRemotePaths
         if ($folder.ShowDialog() -eq "OK")
         {
             $RemoteConfig.EDMrootFolder = $folder.SelectedPath + "\"
-            Write-Host "`nData root folder set to '$($RemoteConfig.EDMrootFolder)'."
         }
 		
 		# Hash data folder
@@ -310,8 +320,19 @@ function SelectEDMRemotePaths
         if ($folder.ShowDialog() -eq "OK")
         {
             $RemoteConfig.HashFolder = $folder.SelectedPath + "\"
-            Write-Host "`nHash folder set to '$($RemoteConfig.HashFolder)'."
         }
+		
+		Write-Host "`n###`t`tEDM folders configuration set up.`t`t####"
+		Write-Host "`n* EDM Application folder set to '$($RemoteConfig.EDMAppFolder)'."
+		Write-Host "* Data root folder set to '$($RemoteConfig.EDMrootFolder)'."
+		Write-Host "* Hash folder set to '$($RemoteConfig.HashFolder)'."
+		
+		WriteToRemoteJsonFile
+		Write-Host "`nPlase validate your folder selection, in case of changes you can execute at anytime." -ForegroundColor DarkYellow
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		
+		cls
     }
 }
 
@@ -343,11 +364,24 @@ function GetEDMUserCredentials
 #To get EDM credenatial in the remote computer
 function GetEDMRemoteUserCredentials
 {
+	cls
+	
+	$config = "$PSScriptRoot\EDM_RemoteConfig.json"
+	$json = Get-Content -Raw -Path $config
+	[PSCustomObject]$RemoteConfig = ConvertFrom-Json -InputObject $json
+	
 	$Credential = $host.ui.PromptForCredential("Your credentials are needed", "Please validate that your user is part of EDM_DataUploaders group", "", "")
 	$Ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($Credential.Password)
 	$RemoteConfig.Password = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($Ptr)
 	$RemoteConfig.User = $Credential.Username
 	$RemoteConfig.EncryptedKeys = "False"
+	
+	WriteToRemoteJsonFile
+	Write-Host "`n### The backup file can contains your credentials in clear text, take precautions ###" -ForegroundColor Red
+	Write-Host -NoNewLine "`n`nTo back to the main menu, please press any key." -ForegroundColor DarkCyan
+	$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+	
+	cls
 }
 
 #To obtain datastores names previously created at the Microsoft Purview portal
@@ -419,7 +453,7 @@ function GetSchemaFile
 		}return
 	}else{
 		.\EdmUploadAgent.exe /SaveSchema /DataStoreName $config.DataStoreName /OutputDir $SchemaFolder
-		$XMLfile = gci $SchemaFolder | select -last 1
+		$XMLfile = gci $SchemaFolder | sort LastWriteTime | select -last 1
 		$config.SchemaFile = $XMLfile.Name
 		
 		Write-Host "`nThe schema file '$($config.SchemaFile)' related to the datastore '$($EDMDSName)' was copied at '$($SchemaFolder)'." -ForegroundColor Green
@@ -511,12 +545,12 @@ function EDMHashCreation
 	If($EDMColumnSeparator -eq 'Csv')
 	{
 		.\EdmUploadAgent.exe /CreateHash /DataFile $EDMData /HashLocation $EDMHash /Schema $EDMSchema  /AllowedBadLinesPercentage $EDMBadLinesPercentage
-		$Hashfile = gci $HashFolder -Filter *.edmhash | select -last 1
+		$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 		$config.HashFile = $Hashfile.Name
 	}else
 	{
 		.\EdmUploadAgent.exe /CreateHash /DataFile $EDMData /HashLocation $EDMHash /Schema $EDMSchema  /AllowedBadLinesPercentage $EDMBadLinesPercentage /ColumnSeparator $EDMColumnSeparator 
-		$Hashfile = gci $HashFolder -Filter *.edmhash | select -last 1
+		$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 		$config.HashFile = $Hashfile.Name
 	}
 	
@@ -553,6 +587,10 @@ function EDMHashUpload
 	.\EdmUploadAgent.exe /UploadHash /DataStoreName $EDMDSName /HashFile $HashName
 	Write-Host "`nHash is uploading, you can validate the state in the -EDM Hash Upload Status- menu" -ForegroundColor Green
 	Write-Host "`nREMEMBER: You can update your EDM data only 5 times per day." -ForegroundColor RED
+	
+	Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+	$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+	cls
 }
 
 #To request the status related to the hash uploaded
@@ -576,6 +614,10 @@ function EDMUploadStatus
 	cls
 	Write-Host "`nChecking the Hash upload status" -ForegroundColor Green
 	.\EdmUploadAgent.exe /GetSession /DataStoreName employeesdataschema
+	
+	Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+	$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+	cls
 }
 
 #To copy the information needed to the remote server
@@ -601,7 +643,7 @@ function EDMCopyDataNeeded
 	Write-Host "`n`n##########################################"
 	Write-Host "`nThe current configuration for remote folder for hash EDM is:"
 	Write-Host "EDM remote path '$($config.EDMremoteFolder)'."
-	Write-Host "REMEMBER: This first copy needs to be done in an empty folder." -ForegroundColor Red
+	Write-Host "REMEMBER: Is recommended to do this copy to an empty folder." -ForegroundColor DarkYellow
 	Write-Host "`n##########################################"
 
     $decision = $Host.UI.PromptForChoice("", "`nDo you want change the locations?", $choices, 1)
@@ -636,6 +678,10 @@ function EDMCopyDataNeeded
 	Copy-Item $HashData $Destination -recurse -force
 	Copy-Item $EDMScripts $Destination -recurse -force
 	Copy-Item $SupportScripts $Destination -recurse -force	
+	
+	Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+	$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+	cls
 }
 
 #To initialize the configuration file used to collect all the settings needed
@@ -871,12 +917,20 @@ function CreateEDMHashUploadScheduledTask
     if (Get-ScheduledTask -TaskName $taskName -TaskPath $taskFolder -ErrorAction SilentlyContinue) 
     {
         Write-Host "`nScheduled task named '$taskName' already exists.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
     else 
     {
         Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings `
         -RunLevel Highest -TaskPath $taskFolder -ErrorAction Stop | Out-Null
         Write-Host "`nScheduled task named '$taskName' was created.`nFor security reasons you have to specify run as account manually.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
 }
 
@@ -918,12 +972,20 @@ function CreateEDMRemoteHashUploadScheduledTask
     if (Get-ScheduledTask -TaskName $taskName -TaskPath $taskFolder -ErrorAction SilentlyContinue) 
     {
         Write-Host "`nScheduled task named '$taskName' already exists.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
     else 
     {
         Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings `
         -RunLevel Highest -TaskPath $taskFolder -ErrorAction Stop | Out-Null
         Write-Host "`nScheduled task named '$taskName' was created.`nFor security reasons you have to specify run as account manually.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
 }
 
@@ -966,12 +1028,20 @@ function CreateEDMHashCreateScheduledTask
     if (Get-ScheduledTask -TaskName $taskName -TaskPath $taskFolder -ErrorAction SilentlyContinue) 
     {
         Write-Host "`nScheduled task named '$taskName' already exists.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
     else 
     {
         Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings `
         -RunLevel Highest -TaskPath $taskFolder -ErrorAction Stop | Out-Null
         Write-Host "`nScheduled task named '$taskName' was created.`nFor security reasons you have to specify run as account manually.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
 }
 
@@ -979,7 +1049,7 @@ function CreateEDMHashCreateScheduledTask
 function CreateEDMHashCopyScheduledTask
 {
 	# EDM Hash copy
-    $taskName = "EDM-Hash"
+    $taskName = "EDM-CopyHashToRemoteServer"
 	
 	# Call function to set a folder for the task on Task Scheduler
 	$taskFolder = CreateScheduledTaskFolder
@@ -1014,12 +1084,20 @@ function CreateEDMHashCopyScheduledTask
     if (Get-ScheduledTask -TaskName $taskName -TaskPath $taskFolder -ErrorAction SilentlyContinue) 
     {
         Write-Host "`nScheduled task named '$taskName' already exists.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
     else 
     {
         Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings `
         -RunLevel Highest -TaskPath $taskFolder -ErrorAction Stop | Out-Null
         Write-Host "`nScheduled task named '$taskName' was created.`nFor security reasons you have to specify run as account manually.`n" -ForegroundColor Yellow
+		
+		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		cls
     }
 }
 
@@ -1118,6 +1196,12 @@ function SelfSignScripts
 			}
 		}
 	}
+	
+	Write-Host "`nYou can back to this menu at anytime to sign the scripts." -ForegroundColor DarkYellow
+	Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
+	$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		
+	cls
 }
 
 #To create a self signed certificate to sign the scripts
@@ -1235,6 +1319,12 @@ function EncryptRemotePasswords
 
     Write-Host "Warning!" -ForegroundColor Yellow
     Write-Host "Please note that encrypted passwords can be decrypted only on this machine, using the same account." -ForegroundColor Yellow
+	
+	Write-Host "`n### The backup file contains your credentials in clear text, take precautions ###" -ForegroundColor Red
+	Write-Host -NoNewLine "`n`nTo back to the main menu, please press any key." -ForegroundColor DarkCyan
+	$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+	
+	cls
 }
 
 #To set the parameters AllowedBadLinesPercentage, by default is set to 5, and ColumnSeparator, by default works with CSV
@@ -1435,7 +1525,7 @@ function SubMenuRemoteUpload
 		Write-Host "`n###`t3 - Copy files needed and Hash to a remote server`t###" -ForegroundColor Magenta
 		Write-Host "`nWhat do you want to do?"
 		Write-Host "`t[1] - Copy the data needed to a remote server"
-		Write-Host "`t[2] - Create task to copy Hash data daily"
+		Write-Host "`t[2] - Create a task to copy Hash data daily"
 		Write-Host "`t[0] - Back to main menu"
 		Write-Host "`n"
 		Write-Host "`nPlease choose option:"
@@ -1456,14 +1546,14 @@ function SubMenuRemoteConfig
 	Clear-Host
 	cls
 	
-	Write-Host "`n`n----------------------------------------------------------------------------------------"
-	Write-Host "`nWelcome to Remote Menu!"
-	Write-Host "This menu is to be used only on the remote server used to upload hash data to Microsoft 365" -ForegroundColor DarkRed
-	Write-Host "Used only if you are using a 2nd Server to upload Hash data" -ForegroundColor DarkRed
+	Write-Host "`n`n----------------------------------------------------------------------------------------" -ForegroundColor DarkRed
+	Write-Host "`n`t`tWelcome to Remote Menu!"
+	Write-Host "`nThis menu is to be used only on the remote server used to upload hash data to Microsoft 365" 
+	Write-Host "Used only if you are using a 2nd Server to upload Hash data" 
 	$choice = 1
 	while ($choice -ne "0")
 	{
-		Write-Host "`n----------------------------------------------------------------------------------------"
+		Write-Host "`n----------------------------------------------------------------------------------------" -ForegroundColor DarkRed
 		Write-Host "`n###`t4 - Remote server activities`t###" -ForegroundColor DarkRed
 		Write-Host "`nWhat do you want to do?"
 		Write-Host "`t[1] - Plase validate your new folders."
@@ -1479,17 +1569,9 @@ function SubMenuRemoteConfig
 		
 		$choice = ([System.Console]::ReadKey($true)).KeyChar
 		switch ($choice) {
-		"1" {
-				SelectEDMRemotePaths
-				WriteToRemoteJsonFile
-				break
-			}
+		"1" {SelectEDMRemotePaths; break}
 		"2" {SelfSignScripts; break}
-		"3" {
-				GetEDMRemoteUserCredentials
-				WriteToRemoteJsonFile
-				break
-			}
+		"3" {GetEDMRemoteUserCredentials; break}
 		"4" {EncryptRemotePasswords; break}
 		"5" {EDMHashUpload; break}
 		"6" {CreateEDMRemoteHashUploadScheduledTask; break}

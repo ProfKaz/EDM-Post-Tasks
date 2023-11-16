@@ -13,7 +13,7 @@
 
 <#
 HISTORY
-  2023-10-27	S.Zamorano	- Initial script to create Hash locally
+  2023-10-27	S.Zamorano	- Initial script to Upload Has from a remote server
   2023-11-15	S.Zamorano	- Initial release
 #>
 
@@ -72,7 +72,7 @@ function DecryptSharedKey
 
 function Connect2EDM
 {
-	$CONFIGFILE = "$PSScriptRoot\..\EDMConfig.json"
+	$CONFIGFILE = "$PSScriptRoot\EDM_RemoteConfig.json"
 	if (-not (Test-Path -Path $CONFIGFILE))
 	{
 		Write-Error "Missing config file." -ForegroundColor Red
@@ -89,13 +89,13 @@ function Connect2EDM
 	if ($EncryptedKeys -eq "True")
 	{
 		$SharedKey = DecryptSharedKey $SharedKey
-		Set-Location $EDMFolder | cmd
-		#cls
+		cd $EDMFolder | cmd
+		cls
 		Write-Host "Validating connection to EDM..." -ForegroundColor Green
 		.\EdmUploadAgent.exe /Authorize /Username $user /Password $SharedKey 
 	}else{
-		Set-Location $EDMFolder | cmd
-		#cls
+		cd $EDMFolder | cmd
+		cls
 		Write-Host "Validating connection to EDM..." -ForegroundColor Green
 		.\EdmUploadAgent.exe /Authorize /Username $user /Password $SharedKey
 	}
@@ -103,18 +103,14 @@ function Connect2EDM
 
 function HashDate
 {
-	$configfile = "$PSScriptRoot\..\EDMConfig.json"
+	$configfile = "$PSScriptRoot\EDM_RemoteConfig.json"
 	$json = Get-Content -Raw -Path $configfile
 	[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
-	$OutputPath = $config.EDMSupportFolder
 	$HashFolder = $config.HashFolder
 	
 	$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 	
-	$timestampFile = "$OutputPath"+"UploadHash_timestamp.json"
-	Write-Host "TimeStamp '$($timestampFile)'"
-	Start-Sleep -s 2
-	
+	$timestampFile = "UploadHash_timestamp.json"
 	# read LastWriteTime from the file
 	if (-not (Test-Path -Path $timestampFile))
 	{
@@ -132,54 +128,49 @@ function HashDate
 	ConvertTo-Json -InputObject $Hashtimestamp | Out-File -FilePath $timestampFile -Force
 }
 
-function CreateHash
+function UploadHash
 {
 	CheckPrerequisites
 	HashDate
-	$configfile = "$PSScriptRoot\..\EDMConfig.json"
+	$configfile = "$PSScriptRoot\EDM_RemoteConfig.json"
 	$json = Get-Content -Raw -Path $configfile
 	[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
 	$HashData = $config.HashFolder
 	$HashData = $HashData.Substring(0,$HashData.Length-1)
 	$HashData = $HashData+"*"
 	$HashFolder = $config.HashFolder
-	$OutputPath = $config.EDMSupportFolder
-	$Destination = $config.EDMremoteFolder
+	$EDMrootFolder = $config.EDMrootFolder
 	
-	$timestampFile = "$OutputPath"+"UploadHash_timestamp.json"
+	$timestampFile = "UploadHash_timestamp.json"
 	$jsonHash = Get-Content -Raw -Path $timestampFile
 	[PSCustomObject]$timestamp = ConvertFrom-Json -InputObject $jsonHash
 	$Hashtimestamp = $timestamp.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
-	Write-Host "Hashtimestamp '$($Hashtimestamp)'." -ForegroundColor Green
 	$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 	$HashfileTime = $Hashfile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
-	Write-Host "Hashfile '$($Hashfile.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss"))'." -ForegroundColor Green
 	
 	if($HashfileTime -eq $Hashtimestamp)
 	{
-		Write-Host "Hash file is still the same, nothing was Uploaded." -ForegroundColor DarkYellow
+		Write-Host "Hash file is still the same, no new files added, nothing was Uploaded." -ForegroundColor DarkYellow
 	}else{
+		
 		Connect2EDM | Out-Null
 	
-		$configfile = "$PSScriptRoot\..\EDMConfig.json"
+		$configfile = "$PSScriptRoot\EDM_RemoteConfig.json"
 		$json = Get-Content -Raw -Path $configfile
 		[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
 		
 		$EDMDSName = $config.DataStoreName
 		$HashName = $config.HashFolder+$config.HashFile
-		$SchemaFolder = $config.SchemaFolder
 		
 		$EDMFolder = $config.EDMAppFolder
 		Set-Location $EDMFolder | cmd	
 		
-		#.\EdmUploadAgent.exe /UploadHash /DataStoreName $EDMDSName /HashFile $HashName
-		Write-Host "`nREMEMBER: You can update your EDM data only 5 times per day." -ForegroundColor Blue
+		.\EdmUploadAgent.exe /UploadHash /DataStoreName $EDMDSName /HashFile $HashName
+		Write-Host "`nREMEMBER: You can update your EDM data only 5 times per day." -ForegroundColor RED
 		
-		$HashfileTime = @{"LastWriteTime" = $HashfileTime}
-		ConvertTo-Json -InputObject $HashfileTime | Out-File -FilePath $timestampFile -Force
-		Set-Location $OutputPath | cmd
+		Set-Location $PSScriptRoot | cmd
 	}
 	
 }
 
-CreateHash
+UploadHash

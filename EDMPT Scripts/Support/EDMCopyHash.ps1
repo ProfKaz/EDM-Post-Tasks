@@ -1,20 +1,20 @@
 <#
 .SYNOPSIS
-    Script to Upload the Hash used on EDM from data file to Microsoft 365.
+    Script to copy Hash used on EDM to a remote server.
 
 .DESCRIPTION
     Script is designed to simplify EDM configuration as a task.
-	Takes the hash an upload to Microsoft 365
+	Only copy the data if a new file was added
     
 .NOTES
     Version 1.0
-    Current version - 15.11.2023
+    Current version - 27.10.2023
 #> 
 
 <#
 HISTORY
-  2023-10-27	S.Zamorano	- Initial script to create Hash locally
-  2023-11-15	S.Zamorano	- Initial release
+  2023-10-27	S.Zamorano	- Initial script to copy Hash data to a remote server
+  2023-11-15	S.Zamorano	- First release
 #>
 
 #------------------------------------------------------------------------------  
@@ -52,55 +52,6 @@ function CheckPrerequisites
     CheckPowerShellVersion
 }
 
-function DecryptSharedKey 
-{
-    param(
-        [string] $encryptedKey
-    )
-
-    try {
-        $secureKey = $encryptedKey | ConvertTo-SecureString -ErrorAction Stop  
-    }
-    catch {
-        Write-Error "Workspace key: $($_.Exception.Message)"
-        exit(1)
-    }
-    $BSTR =  [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureKey)
-    $plainKey = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
-    $plainKey
-}
-
-function Connect2EDM
-{
-	$CONFIGFILE = "$PSScriptRoot\..\EDMConfig.json"
-	if (-not (Test-Path -Path $CONFIGFILE))
-	{
-		Write-Error "Missing config file." -ForegroundColor Red
-		exit(1)
-	}
-	
-	$json = Get-Content -Raw -Path $CONFIGFILE
-	[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
-	$EncryptedKeys = $config.EncryptedKeys
-	$EDMFolder = $config.EDMAppFolder
-	$user = $config.User
-	$SharedKey = $config.Password
-	
-	if ($EncryptedKeys -eq "True")
-	{
-		$SharedKey = DecryptSharedKey $SharedKey
-		Set-Location $EDMFolder | cmd
-		#cls
-		Write-Host "Validating connection to EDM..." -ForegroundColor Green
-		.\EdmUploadAgent.exe /Authorize /Username $user /Password $SharedKey 
-	}else{
-		Set-Location $EDMFolder | cmd
-		#cls
-		Write-Host "Validating connection to EDM..." -ForegroundColor Green
-		.\EdmUploadAgent.exe /Authorize /Username $user /Password $SharedKey
-	}
-}
-
 function HashDate
 {
 	$configfile = "$PSScriptRoot\..\EDMConfig.json"
@@ -111,10 +62,7 @@ function HashDate
 	
 	$Hashfile = gci $HashFolder -Filter *.edmhash | sort LastWriteTime | select -last 1
 	
-	$timestampFile = "$OutputPath"+"UploadHash_timestamp.json"
-	Write-Host "TimeStamp '$($timestampFile)'"
-	Start-Sleep -s 2
-	
+	$timestampFile = "$OutputPath\CopyHash_timestamp.json"
 	# read LastWriteTime from the file
 	if (-not (Test-Path -Path $timestampFile))
 	{
@@ -123,16 +71,18 @@ function HashDate
 		$timestamp = [DateTime]$timestamp
 		$Hashtimestamp = $timestamp.AddDays(-1)
 		$Hashtimestamp = $Hashtimestamp.ToString("yyyy-MM-ddTHH:mm:ss")
+		write-host "this is the if"
 	}else{
 		$json = Get-Content -Raw -Path $timestampFile
 		[PSCustomObject]$timestamp = ConvertFrom-Json -InputObject $json
 		$Hashtimestamp = $timestamp.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
+		write-host "this is the else"
 	}
 	$Hashtimestamp = @{"LastWriteTime" = $Hashtimestamp}
 	ConvertTo-Json -InputObject $Hashtimestamp | Out-File -FilePath $timestampFile -Force
 }
 
-function CreateHash
+function CopyHash
 {
 	CheckPrerequisites
 	HashDate
@@ -146,7 +96,7 @@ function CreateHash
 	$OutputPath = $config.EDMSupportFolder
 	$Destination = $config.EDMremoteFolder
 	
-	$timestampFile = "$OutputPath"+"UploadHash_timestamp.json"
+	$timestampFile = "$OutputPath"+"CopyHash_timestamp.json"
 	$jsonHash = Get-Content -Raw -Path $timestampFile
 	[PSCustomObject]$timestamp = ConvertFrom-Json -InputObject $jsonHash
 	$Hashtimestamp = $timestamp.LastWriteTime.ToString("yyyy-MM-ddTHH:mm:ss")
@@ -157,29 +107,14 @@ function CreateHash
 	
 	if($HashfileTime -eq $Hashtimestamp)
 	{
-		Write-Host "Hash file is still the same, nothing was Uploaded." -ForegroundColor DarkYellow
+		Write-Host "Hash file is still the same, nothing was copied." -ForegroundColor DarkYellow
 	}else{
-		Connect2EDM | Out-Null
-	
-		$configfile = "$PSScriptRoot\..\EDMConfig.json"
-		$json = Get-Content -Raw -Path $configfile
-		[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
-		
-		$EDMDSName = $config.DataStoreName
-		$HashName = $config.HashFolder+$config.HashFile
-		$SchemaFolder = $config.SchemaFolder
-		
-		$EDMFolder = $config.EDMAppFolder
-		Set-Location $EDMFolder | cmd	
-		
-		#.\EdmUploadAgent.exe /UploadHash /DataStoreName $EDMDSName /HashFile $HashName
-		Write-Host "`nREMEMBER: You can update your EDM data only 5 times per day." -ForegroundColor Blue
-		
+		Copy-Item $HashData $Destination -recurse -force
+		Write-Host "Copy completed." -ForegroundColor Green
 		$HashfileTime = @{"LastWriteTime" = $HashfileTime}
 		ConvertTo-Json -InputObject $HashfileTime | Out-File -FilePath $timestampFile -Force
-		Set-Location $OutputPath | cmd
 	}
 	
 }
 
-CreateHash
+CopyHash
