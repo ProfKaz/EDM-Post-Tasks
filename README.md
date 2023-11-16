@@ -5,4 +5,6 @@ After you create your EDM schema at the Purview Portal, according with this [doc
 
 After the Schema was created, and wait around 30 minutes, the schema will be available to be used through [EDM Upload Agent](https://go.microsoft.com/fwlink/?linkid=2088639) (This link download the version for commercial Tenants), all the clients can be found in this [link](https://learn.microsoft.com/en-us/purview/sit-get-started-exact-data-match-hash-upload#links-to-edm-upload-agent-by-subscription-type), several tasks are required to execute accordin to the next image.
 
-<p align="center">![EDM post task overview](https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/d9d3cd77-4680-4b44-a3dc-90e3be67869b)</p>
+<p align="center">
+![EDM post task overview](https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/aaa29ede-71ba-43ba-a539-d530a150f336)
+</p>
