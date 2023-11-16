@@ -1561,8 +1561,8 @@ function SubMenuRemoteConfig
 		Write-Host "`t[3] - Change credentials, only if you want to use another account."
 		Write-Host "`t[4] - Encrypt password."
 		Write-Host "`t[5] - Upload Hash to Microsoft 365."
-		Write-Host "`t[6] - Create a task to upload Hash to Microsoft 365."
-		Write-Host "`t[7] - Check Hash upload status."
+		Write-Host "`t[6] - Check Hash upload status."
+		Write-Host "`t[7] - Create a task to upload Hash to Microsoft 365."
 		Write-Host "`t[0] - Back to main menu"
 		Write-Host "`n"
 		Write-Host "`nPlease choose option:"
@@ -1574,8 +1574,8 @@ function SubMenuRemoteConfig
 		"3" {GetEDMRemoteUserCredentials; break}
 		"4" {EncryptRemotePasswords; break}
 		"5" {EDMHashUpload; break}
-		"6" {CreateEDMRemoteHashUploadScheduledTask; break}
-		"7" {EDMUploadStatus; break}
+		"6" {EDMUploadStatus; break}
+		"7" {CreateEDMRemoteHashUploadScheduledTask; break}
 		"0" {cls;return}
 		}
 	
