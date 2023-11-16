@@ -63,4 +63,9 @@ In this section we will do:
 1. [1]Copy the data needed to a remote server, a new configuration file is created with the minimal configuration needed to execute EDM PT in the remote server, the scripts required and the Hash files.
 2. [2]Create a task under task scheduler to copy Hashed data daily.
 
-3. 
+## 4 - Remote server activities
+This last menu related to EDM tasks is to be used in a remote server, and helps to set the activities related to only upload the hashed data.
+
+<p align="center">
+<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/00d6948c-c6b6-4db9-b29f-9b0766b30ba8"></p>
+<p align="center">4 - Remote server activities</p>
