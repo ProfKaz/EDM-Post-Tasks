@@ -1349,7 +1349,7 @@ function EDMAdditionalConfiguration
     $decision = $Host.UI.PromptForChoice("", "`nDo you want to change these values?", $choices, 1)
 	if ($decision -eq 1)
 	{
-		Write-Host "`nYou has decide don't change the setting values." -ForegroundColor DarkYellow
+		Write-Host "`nYou have decided not to change the setting values." -ForegroundColor DarkYellow
 		Write-Host "These values are used to hash the data and upload the data to your M365 Teanant." -ForegroundColor DarkYellow
 		Write-Host "Values are set to AllowedBadLinesPercentage '$($config.BadLinesPercentage)' and ColumnSeparator to '$($config.ColumnSeparator)'." -ForegroundColor DarkYellow
 		Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
@@ -1443,7 +1443,7 @@ function SubMenuInitialization
 		Write-Host "`t[2] - Get credentials for connection"	
 		Write-Host "`t[3] - Encrypt passwords"
 		Write-Host "`t[4] - Connect to EDM service"
-		Write-Host "`t[9] - Optional configuration for EDM(Bad lines percentage '$($config.BadLinesPercentage)' and Column Separator '$($config.ColumnSeparator)' by default)"
+		Write-Host "`t[9] - Optional configuration for EDM (Bad lines percentage '$($config.BadLinesPercentage)' and Column Separator '$($config.ColumnSeparator)' by default)"
 		Write-Host "`t[0] - Back to main menu"
 		Write-Host "`n"
 		Write-Host "`nPlease choose option:"
