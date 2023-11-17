@@ -57,3 +57,7 @@ With EDM PT we can cover all the tasks that appears in the image "EDM Post tasks
   * Upload the **Hash file** from the remote server if this file is a new one.
 
 (EDM PT solution compare the _Last Write Time_ for each file to compare and see if we are working with a new file, or not, this validation is do it because you can do a EDM refresh only 5 times per day)
+
+**__[Next Step - Start using it](About_EDMPT_Solution.md)__**
+
+
