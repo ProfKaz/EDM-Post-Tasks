@@ -18,6 +18,7 @@ EDM PT solution is built with some menus that permit to group the different acti
 Those menus will be explain next.
 
 ## 1 - Initial Setup for EDM
+
 This first menu permit to set all the initial configuration required to execute the solution.
 
 <p align="center">
@@ -36,6 +37,7 @@ In this section we will do:
 5. [9]Optional configuration for EDM, by default exist 2 attributes that are optional **AllowedBadLinesPercentage** and **ColumnSeparator**, in this menu this values can be set.
 
 ## 2 - Generate EDM Hash & upload
+
 This 2<sup>nd</sup> menu permit to generate all the tasks to collect all the additional information needed to set the **Datastore**, to get the **Schema file**, to set the **Path** and the **Data file**. With the previous information the **Hash file** can be created and uploaded to your Microsoft 365 Tenant.
 
 <p align="center">
@@ -53,6 +55,7 @@ In this section we will do:
 8. [8]Create a task under task scheduler to upload the Hashed data to your Microsoft 365 Tenant.
 
 ## 3 - Copy files needed and Hash to a remote server
+
 This 3<sup>rd</sup> menu permit to copy the files needed to execute EDM PT in a remote server to upload the data hashed to your Microsoft 365 Tenant.
 
 <p align="center">
@@ -64,8 +67,34 @@ In this section we will do:
 2. [2]Create a task under task scheduler to copy Hashed data daily.
 
 ## 4 - Remote server activities
+
 This last menu related to EDM tasks is to be used in a remote server, and helps to set the activities related to only upload the hashed data.
 
 <p align="center">
-<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/00d6948c-c6b6-4db9-b29f-9b0766b30ba8"></p>
+<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/05560a22-3f32-4e71-995f-a27d02e10172"></p>
 <p align="center">4 - Remote server activities</p>
+
+In this section we will do:
+1. [1]Please validate your new folders, validate the path used in the remote server.
+  * EDMAppFolder : Folder where EDM Upload Agent was installed.
+  * EDMrootFolder : Where all the folders used by EDM and scripts will be located.
+  * HashFolder : Where the **Hash file** will be located.
+2. [2]Sign the scripts again, you can sign the script to be used under **Set-ExecutionPolicy** set as **RemoteSigned**.
+3. [3]Change credentials, only if you want to use another account.
+4. [4]Encrypt password, the remote config file created contains the password in clear text and is required to encrypt again(This is because the hash used the machine ID and the logged user, for that reason in unencrypted when is copying from the previous server).
+5. [5]Upload your Hashed data to your Microsoft 365 Tenant.
+6. [6]Check Hash upload status.
+7. [7]Create a task, under task scheduler, to upload your Hashed data to your Microsoft 365 Tenant.
+
+## 8 - About this Script
+
+This section is only to explain in general this solution and give information about the [Author](https://www.linkedin.com/in/profesorkaz/)
+
+## 9 - Supporting elements
+
+This last section is related to Sign the scripts, in several places is not allowed execute scripts that are not digital signed, this menu permit to sign the scripts resuing a pre installed certificate, or permit to create a new one self signed.
+
+<p align="center">
+<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/d61ae9d1-d98a-4752-8970-8bf48998b22b"></p>
+<p align="center">9 - Supporting elements</p>
+
