@@ -56,6 +56,8 @@ In this section we will do:
 7. [7]Create a task under task scheduler to create Hash files.
 8. [8]Create a task under task scheduler to upload the Hashed data to your Microsoft 365 Tenant.
 
+**__For more details about this menu you can press [here](Details/EDMPT-Menu2.md)__**
+
 ## 3 - Copy files needed and Hash to a remote server
 
 This 3<sup>rd</sup> menu permit to copy the files needed to execute EDM PT in a remote server to upload the data hashed to your Microsoft 365 Tenant.
@@ -67,6 +69,8 @@ This 3<sup>rd</sup> menu permit to copy the files needed to execute EDM PT in a 
 In this section we will do:
 1. [1]Copy the data needed to a remote server, a new configuration file is created with the minimal configuration needed to execute EDM PT in the remote server, the scripts required and the Hash files.
 2. [2]Create a task under task scheduler to copy Hashed data daily.
+
+**__For more details about this menu you can press [here](Details/EDMPT-Menu3.md)__**
 
 ## 4 - Remote server activities
 
@@ -88,6 +92,8 @@ In this section we will do:
 6. [6]Check Hash upload status.
 7. [7]Create a task, under task scheduler, to upload your Hashed data to your Microsoft 365 Tenant.
 
+**__For more details about this menu you can press [here](Details/EDMPT-Menu4.md)__**
+
 ## 8 - About this Script
 
 This section is only to explain in general this solution and give information about the [Author](https://www.linkedin.com/in/profesorkaz/)
@@ -103,4 +109,9 @@ This last section is related to Sign the scripts, in several places is not allow
 <p align="center">
 <img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/d61ae9d1-d98a-4752-8970-8bf48998b22b"></p>
 <p align="center">9 - Supporting elements</p>
+
+In this section we will do:
+1. [1]Sign EDM scripts, if you don't have a certificate for code signing this script will permit to generate a self signed to using it.
+
+**__For more details about this menu you can press [here](Details/EDMPT-Menu9.md)__**
 
