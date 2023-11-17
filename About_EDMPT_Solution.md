@@ -22,11 +22,11 @@ Those menus will be explain next.
 This first menu permit to set all the initial configuration required to execute the solution.
 
 <p align="center">
-<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/02ced46f-074b-4424-a798-8a28672b0837"></p>
+<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/ba857e59-e482-46c5-bf57-7c33e85e141c"></p>
 <p align="center">1 - Initial Setup for EDM</p>
 
 In this section we will do:
-1. [1]Configure the path for different folders used by EDMPT.
+1. [1]Folder selection used by EDMPT.
   * EDMAppFolder : Folder where EDM Upload Agent was installed.
   * EDMrootFolder : Where all the folders used by EDM and scripts will be located.
   * HashFolder : Where the **Hash file** will be located.
