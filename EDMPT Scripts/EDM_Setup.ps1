@@ -1618,7 +1618,10 @@ function AboutThisScript
 	
 	Write-Host "`n`n########################################################################################" -ForegroundColor Cyan
 	Write-Host "`n`t`tAbout EDM setup script." -ForegroundColor DarkCyan
-	Write-Host "(https://learn.microsoft.com/en-us/purview/sit-get-started-exact-data-match-based-sits-overview)" -ForegroundColor DarkCyan
+	Write-Host "`nSOURCE SCRIPT:" -ForegroundColor DarkGreen -NoNewline
+	Write-Host "https://aka.ms/EDMPostTasks"
+	Write-Host "About EDM :" -ForegroundColor DarkGreen -NoNewline
+	Write-Host "https://learn.microsoft.com/en-us/purview/sit-get-started-exact-data-match-based-sits-overview"
 	Write-Host "`nThis script is thought to help in all the steps where the EDM Upload Agent is required."
 	Write-Host "Normally the post tasks related to EDM, associated to this app are:"	
 	Write-Host "`n`tA. Validate the connection"
