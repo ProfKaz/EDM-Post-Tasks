@@ -36,6 +36,8 @@ In this section we will do:
 4. [4]Connect to EDM, permit to validate the current configuration and see if the connection is correctly set with the EDM service.
 5. [9]Optional configuration for EDM, by default exist 2 attributes that are optional **AllowedBadLinesPercentage** and **ColumnSeparator**, in this menu this values can be set.
 
+**__For more details about this menu you can press [here](Details/EDMPT-Menu1.md)__**
+
 ## 2 - Generate EDM Hash & upload
 
 This 2<sup>nd</sup> menu permit to generate all the tasks to collect all the additional information needed to set the **Datastore**, to get the **Schema file**, to set the **Path** and the **Data file**. With the previous information the **Hash file** can be created and uploaded to your Microsoft 365 Tenant.
