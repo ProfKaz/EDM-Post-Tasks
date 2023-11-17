@@ -630,11 +630,11 @@ function EDMCopyDataNeeded
 	$json = Get-Content -Raw -Path $configfile
 	[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
 	$HashData = $config.HashFolder
-	$HashData = $HashData.Substring(0,$HashData.Length-1)
 	$HashData = $HashData+"*.Edm*"
 	$SupportScripts = $config.EDMSupportFolder
 	$SupportScripts = $SupportScripts+"EDM_*"
 	$Destination = $config.EDMremoteFolder
+	$HashDestination = "$Destination"+"Hash\"
 
 	$EDMScripts = "$PSScriptRoot\EDM_*"
 	
@@ -675,7 +675,8 @@ function EDMCopyDataNeeded
 	Write-Host "`tSupport script for upload task " -ForegroundColor Green
 	Write-Host "`n###################################################" -ForegroundColor Red
 	
-	Copy-Item $HashData $Destination -recurse -force
+	New-Item -ItemType Directory -Force -Path $HashDestination | Out-Null
+	Copy-Item $HashData $HashDestination -recurse -force
 	Copy-Item $EDMScripts $Destination -recurse -force
 	Copy-Item $SupportScripts $Destination -recurse -force	
 	

@@ -90,11 +90,11 @@ function CopyHash
 	$json = Get-Content -Raw -Path $configfile
 	[PSCustomObject]$config = ConvertFrom-Json -InputObject $json
 	$HashData = $config.HashFolder
-	$HashData = $HashData.Substring(0,$HashData.Length-1)
 	$HashData = $HashData+"*.Edm*"
 	$HashFolder = $config.HashFolder
 	$OutputPath = $config.EDMSupportFolder
 	$Destination = $config.EDMremoteFolder
+	$HashDestination = "$Destination"+"Hash\"
 	
 	$timestampFile = "$OutputPath"+"CopyHash_timestamp.json"
 	$jsonHash = Get-Content -Raw -Path $timestampFile
@@ -109,7 +109,8 @@ function CopyHash
 	{
 		Write-Host "Hash file is still the same, nothing was copied." -ForegroundColor DarkYellow
 	}else{
-		Copy-Item $HashData $Destination -recurse -force
+		New-Item -ItemType Directory -Force -Path $HashDestination | Out-Null
+		Copy-Item $HashData $HashDestination -recurse -force
 		Write-Host "Copy completed." -ForegroundColor Green
 		$HashfileTime = @{"LastWriteTime" = $HashfileTime}
 		ConvertTo-Json -InputObject $HashfileTime | Out-File -FilePath $timestampFile -Force
