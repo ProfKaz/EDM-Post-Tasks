@@ -1439,7 +1439,7 @@ function SubMenuInitialization
 		Write-Host "`n----------------------------------------------------------------------------------------"
 		Write-Host "`n###`t1 - Initial Setup for EDM`t###" -ForegroundColor Blue
 		Write-Host "`nWhat do you want to do?"
-		Write-Host "`t[1] - Initial Setup for EDM (principal folders used)"
+		Write-Host "`t[1] - Folder selection for EDM (principal folders used)"
 		Write-Host "`t[2] - Get credentials for connection"	
 		Write-Host "`t[3] - Encrypt passwords"
 		Write-Host "`t[4] - Connect to EDM service"
