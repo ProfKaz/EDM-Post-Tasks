@@ -39,3 +39,8 @@ Columns SSN, TIN and PhoneNumber were used as a Primary Element.
 <p align="center">
 <img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/7021957c-bcf1-4124-b89c-2aeed0ee88a6"></p>
 <p align="center">EDM Classifier configuration</p>
+
+How was build this report step by step, you can see the recorded session for this past Webinar about [Sensitive Information Types, Custom SITs and EDM](https://youtu.be/Ynf9kyMAog4).
+
+## About the files used for hash.
+
