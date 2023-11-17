@@ -90,6 +90,10 @@ In this section we will do:
 
 This section is only to explain in general this solution and give information about the [Author](https://www.linkedin.com/in/profesorkaz/)
 
+<p align="center">
+<img src="https://github.com/ProfKaz/EDM-Post-Tasks/assets/44684110/06881595-a86f-4b19-b3a7-28efdced3429"></p>
+<p align="center">8 - About this Script</p>
+
 ## 9 - Supporting elements
 
 This last section is related to Sign the scripts, in several places is not allowed execute scripts that are not digital signed, this menu permit to sign the scripts resuing a pre installed certificate, or permit to create a new one self signed.
