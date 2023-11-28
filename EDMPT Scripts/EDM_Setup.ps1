@@ -613,7 +613,7 @@ function EDMUploadStatus
 	
 	cls
 	Write-Host "`nChecking the Hash upload status" -ForegroundColor Green
-	.\EdmUploadAgent.exe /GetSession /DataStoreName employeesdataschema
+	.\EdmUploadAgent.exe /GetSession /DataStoreName $DSName
 	
 	Write-Host -NoNewLine "`n`nTo back to the previous menu, please press any key." -ForegroundColor DarkCyan
 	$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
